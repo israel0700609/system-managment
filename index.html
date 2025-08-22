@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סיכום סידור עבודה</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary-color: #007bff;
+    --light-gray: #f8f9fa;
+    --text-color: #212529;
+    --border-color: #dee2e6;
+    --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
+    --border-radius: 0.5rem;
+
+    /* צבעים אחידים לכל התפקידים */
+    --runner-bg: #28a745;
+    --runner-text: #ffffff;
+
+    --waiter-hall-bg: #007bff;
+    --waiter-hall-text: #ffffff;
+
+    --waiter-terrace-bg: #0056b3;
+    --waiter-terrace-text: #ffffff;
+
+    --hostess-hall-bg: #ffc107;
+    --hostess-hall-text: #212529;
+
+    --hostess-terrace-bg: #e0a800;
+    --hostess-terrace-text: #212529;
+
+    --tastings-bg: #17a2b8;
+    --tastings-text: #ffffff;
+}
+
+body {
+    font-family: 'Rubik', 'Segoe UI', Arial, sans-serif;
+    direction: rtl;
+    padding: 20px;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 95%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2rem;
+}
+
+#scheduleTableContainer {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#scheduleTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    table-layout: fixed;
+}
+
+#scheduleTable th, #scheduleTable td {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    text-align: center;
+    min-width: 150px;
+}
+
+#scheduleTable thead th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#scheduleTable tbody th {
+    background-color: var(--light-gray);
+    font-weight: 500;
+    text-align: right;
+    position: sticky;
+    right: 0;
+    z-index: 5;
+}
+
+#scheduleTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+#scheduleTable tbody tr:nth-child(even) th {
+    background-color: #e9ecef;
+}
+
+.role-cell {
+    font-weight: 500;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 5px 10px;
+    min-width: 90px;
+    box-sizing: border-box;
+}
+
+/* צבעים לפי תפקיד */
+.role-runners { background-color: var(--runner-bg); color: var(--runner-text); }
+.role-waiters-hall { background-color: var(--waiter-hall-bg); color: var(--waiter-hall-text); }
+.role-waiters-terrace { background-color: var(--waiter-terrace-bg); color: var(--waiter-terrace-text); }
+.role-hostess-hall { background-color: var(--hostess-hall-bg); color: var(--hostess-hall-text); }
+.role-hostess-terrace { background-color: var(--hostess-terrace-bg); color: var(--hostess-terrace-text); }
+.role-tastings { background-color: var(--tastings-bg); color: var(--tastings-text); }
+
+#no-data-message { display: none; text-align: center; font-size: 1.2rem; }
+
+.navigation-buttons { text-align: center; margin-top: 30px; }
+.nav-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.nav-button:hover {
+    filter: brightness(110%);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>סיכום סידור עבודה</h2>
+
+    <div id="scheduleTableContainer"></div>
+
+    <div id="no-data-message">
+        <p>לא נמצא סידור עבודה. יש לחזור לדף הראשי ולשבץ עובדים תחילה.</p>
+    </div>
+
+    <div class="navigation-buttons">
+        <a href="main.html" class="nav-button">חזרה לדף השיבוץ</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const scheduleDataString = sessionStorage.getItem('workSchedule');
+    if (!scheduleDataString) {
+        document.getElementById('no-data-message').style.display = 'block';
+        return;
+    }
+
+    const schedule = JSON.parse(scheduleDataString);
+
+    const allDays = new Set();
+    const allWorkers = new Set();
+    const assignmentsMap = new Map();
+
+    const roleTranslations = {
+        runners: 'ראנר',
+        waiters_hall: 'מלצר אולם',
+        waiters_terrace: 'מלצר טרסה',
+        hostess_hall: 'מארחת אולם',
+        hostess_terrace: 'מארחת טרסה',
+        tastings: 'טעימות'
+    };
+
+    for (const day in schedule) {
+        const dayAssignments = schedule[day];
+        let hasAssignments = false;
+
+        const processRole = (workers, roleKey) => {
+            if (workers && workers.length > 0) {
+                hasAssignments = true;
+                workers.forEach(worker => {
+                    allWorkers.add(worker);
+                    const mapKey = `${worker},${day}`;
+                    assignmentsMap.set(mapKey, roleTranslations[roleKey]);
+                });
+            }
+        };
+
+        processRole(dayAssignments.runners, 'runners');
+        processRole(dayAssignments.tastings, 'tastings');
+        if (dayAssignments.waiters) {
+            processRole(dayAssignments.waiters.hall, 'waiters_hall');
+            processRole(dayAssignments.waiters.terrace, 'waiters_terrace');
+        }
+        if (dayAssignments.hostess) {
+            processRole(dayAssignments.hostess.hall, 'hostess_hall');
+            processRole(dayAssignments.hostess.terrace, 'hostess_terrace');
+        }
+
+        if (hasAssignments) {
+            allDays.add(day);
+        }
+    }
+
+    if (allWorkers.size === 0) {
+        document.getElementById('no-data-message').style.display = 'block';
+        return;
+    }
+
+    const dayOrder = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+    const sortedDays = Array.from(allDays).sort((a, b) => {
+        const indexA = dayOrder.indexOf(a.trim());
+        const indexB = dayOrder.indexOf(b.trim());
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
+
+    const sortedWorkers = Array.from(allWorkers).sort();
+
+    const tableContainer = document.getElementById('scheduleTableContainer');
+    const table = document.createElement('table');
+    table.id = 'scheduleTable';
+
+    const thead = table.createTHead();
+    const headerRow = thead.insertRow();
+    headerRow.insertCell().textContent = 'שם עובד';
+    sortedDays.forEach(day => {
+        const th = document.createElement('th');
+        th.textContent = day;
+        headerRow.appendChild(th);
+    });
+
+    const tbody = table.createTBody();
+    sortedWorkers.forEach(worker => {
+        const row = tbody.insertRow();
+        const nameCell = document.createElement('th');
+        nameCell.textContent = worker;
+        row.appendChild(nameCell);
+
+        sortedDays.forEach(day => {
+            const cell = row.insertCell();
+            const mapKey = `${worker},${day}`;
+            const role = assignmentsMap.get(mapKey);
+            if (role) {
+                const roleKey = Object.keys(roleTranslations).find(k => roleTranslations[k] === role);
+                cell.innerHTML = `<span class="role-cell role-${roleKey.replace('_', '-')}">${role}</span>`;
+            }
+        });
+    });
+
+    tableContainer.appendChild(table);
+});
+</script>
+</body>
+</html>
