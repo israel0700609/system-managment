@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מערכת שיבוץ עובדים</title>
 
-    <!-- הוספת פונט מומלץ של גוגל למראה נקי יותר -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -14,7 +13,6 @@
         /* ======================================== */
         /* ===          עיצוב UI משופר          === */
         /* ======================================== */
-
         :root {
             --primary-color: #007bff;
             --primary-dark-color: #0056b3;
@@ -28,68 +26,57 @@
             --border-color: #dee2e6;
             --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
             --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
-            --border-radius: 0.5rem; /* 8px */
+            --border-radius: 0.5rem;
         }
-
-    body {
-        font-family: 'Rubik', 'Segoe UI', Arial, sans-serif;
-        direction: rtl;
-        padding: 20px;
-        background-color: var(--light-gray); /* נשאר במקרה שהתמונה לא נטענת */
-        background-image: url('64897391_2214140521987177_3125450978359246848_n.jpg'); /* כאן נתיב התמונה */
-        background-repeat: no-repeat;
-        background-position: center top; /* ממקם את התמונה בחלק העליון במרכז */
-        background-size: 100% auto;      /* רוחב 100%, גובה אוטומטי לפי הפרופורציה */        color: var(--text-color);
-    }
-
+        body {
+            font-family: 'Rubik', sans-serif;
+            direction: rtl;
+            padding: 20px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+        }
         .container {
-            max-width: 1000px; /* הגדלת רוחב הקונטיינר */
+            max-width: 1000px;
             margin: 0 auto;
             background-color: #fff;
             padding: 30px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-md);
         }
-
         h2 {
             text-align: center;
             color: var(--text-color);
             margin-bottom: 25px;
-            font-size: 2.2rem; /* הגדלת כותרת ראשית */
+            font-size: 2.2rem;
         }
-
         #daysTable {
             width: 100%;
-            border-collapse: separate; /* מאפשר שימוש ב-border-radius על תאים */
-            border-spacing: 0 8px; /* רווח בין השורות */
+            border-collapse: separate;
+            border-spacing: 0 8px;
             margin-bottom: 20px;
         }
-
         #daysTable th {
             border: 1px solid var(--border-color);
-            padding: 18px 15px; /* הגדלת ריווח */
+            padding: 18px 15px;
             text-align: center;
             background-color: #fff;
             color: var(--primary-color);
             cursor: pointer;
-            font-size: 1.2rem; /* הגדלת גופן כותרות ימים */
+            font-size: 1.2rem;
             font-weight: 500;
             transition: all 0.2s ease-in-out;
             border-radius: var(--border-radius);
         }
-
         #daysTable th:hover {
             background-color: var(--primary-color);
             color: #fff;
             transform: translateY(-2px);
             box-shadow: var(--shadow-sm);
         }
-
         #summaryButtonContainer {
             text-align: center;
             margin-top: 30px;
         }
-
         #summaryButton {
             padding: 12px 25px;
             font-size: 1.2rem;
@@ -101,154 +88,103 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-
         #summaryButton:hover {
             filter: brightness(110%);
             box-shadow: var(--shadow-sm);
         }
-
-
-        /* --- עיצוב המודאל --- */
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0;
             width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 20px;
         }
-
         .modal-content {
             background-color: #fefefe; padding: 30px; border-radius: var(--border-radius);
             box-shadow: var(--shadow-md); width: 95%; max-width: 900px;
             direction: rtl; display: flex; flex-direction: column; max-height: 90vh;
         }
-
         .modal-header {
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; flex-shrink: 0;
         }
-
         .modal-header h3 {
-            margin: 0;
-            font-size: 1.8rem;
+            margin: 0; font-size: 1.8rem;
         }
-
         .modal-body {
             display: flex; gap: 30px; overflow-y: hidden;
         }
-
         .modal-column {
-            flex: 1;
-            background-color: var(--light-gray);
+            flex: 1; background-color: var(--light-gray);
             display: flex; flex-direction: column; min-width: 280px;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius); border: 1px solid var(--border-color);
         }
-
         .column-title {
             font-weight: 700; text-align: center; margin: 0;
             color: var(--text-color); padding: 15px; border-bottom: 1px solid var(--border-color);
-            background-color: #fff; flex-shrink: 0;
-            font-size: 1.3rem;
+            background-color: #fff; flex-shrink: 0; font-size: 1.3rem;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
-
-        /* === עיצוב חדש לחיפוש === */
         .search-wrapper {
-            padding: 0 15px 15px 15px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: #fff;
+            padding: 0 15px 15px 15px; border-bottom: 1px solid var(--border-color); background-color: #fff;
         }
-
         #workerSearchInput {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-sizing: border-box;
+            width: 100%; padding: 10px; font-size: 1rem; border: 1px solid var(--border-color);
+            border-radius: 6px; box-sizing: border-box;
         }
-
         .list-container {
             overflow-y: auto; padding: 15px;
         }
-
         .assigned-role-group {
             margin-bottom: 20px;
         }
         .main-role-title {
-            font-weight: 700;
-            font-size: 1.2em;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
+            font-weight: 700; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px;
             border-bottom: 2px solid var(--medium-gray);
         }
         .sub-role-title {
-            font-size: 1.05em;
-            color: var(--dark-gray);
-            font-weight: 500;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            padding-right: 10px;
+            font-size: 1.05em; color: var(--dark-gray); font-weight: 500;
+            margin-top: 10px; margin-bottom: 5px; padding-right: 10px;
         }
-
         .user-item, .assigned-list li {
             padding: 12px; margin-bottom: 8px; background-color: #fff;
             border: 1px solid var(--border-color); border-radius: 6px;
-            transition: all 0.2s ease;
-            font-size: 1.1rem;
+            transition: all 0.2s ease; font-size: 1.1rem;
         }
-
         .user-item {
             display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
         }
-
         .assigned-list li {
             cursor: pointer;
         }
-
         .assigned-list li:hover {
-            background-color: #ffebee;
-            border-color: #ef9a9a;
-            text-decoration: line-through;
-            color: #c62828;
+            background-color: #ffebee; border-color: #ef9a9a; text-decoration: line-through; color: #c62828;
         }
-
         .user-name {
-            font-weight: 500;
-            margin-bottom: 10px;
-            width: 100%;
+            font-weight: 500; margin-bottom: 10px; width: 100%;
         }
-
         .assign-buttons {
             display: flex; gap: 6px; flex-wrap: wrap; width: 100%;
         }
-
         .assign-buttons button {
             padding: 8px 10px; border: none; border-radius: 6px; cursor: pointer;
             font-size: 14px; flex-grow: 1; font-weight: 500;
             transition: filter 0.2s ease, transform 0.2s ease;
         }
-
         .assign-buttons button:hover {
-            filter: brightness(110%);
-            transform: translateY(-1px);
+            filter: brightness(110%); transform: translateY(-1px);
         }
-
         .assign-buttons .runner { background-color: var(--success-color); color: white; }
         .assign-buttons .waiter-hall { background-color: var(--primary-color); color: white; }
         .assign-buttons .waiter-terrace { background-color: var(--primary-dark-color); color: white; }
         .assign-buttons .hostess-hall { background-color: var(--warning-color); color: var(--text-color); }
         .assign-buttons .hostess-terrace { background-color: #e0a800; color: var(--text-color); }
         .assign-buttons .tastings { background-color: var(--info-color); color: white; }
-
         .close-button { color: #aaa; font-size: 40px; font-weight: bold; cursor: pointer; transition: color 0.2s ease; }
         .close-button:hover { color: #333; }
-
         .error-message, .loading-message {
             padding: 15px; border-radius: var(--border-radius); margin-bottom: 20px; text-align: center; font-size: 1.1rem;
         }
         .error-message { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         .loading-message { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
-
         @media (max-width: 768px) {
             body { padding: 10px; font-size: 16px; }
             .container { padding: 15px; }
@@ -290,16 +226,13 @@
                     <ul id="availableWorkersList" class="user-list"></ul>
                 </div>
             </div>
-
             <div class="modal-column">
                 <div class="column-title">עובדים משובצים</div>
                 <div class="list-container" id="assignedWorkersContainer">
-
                     <div class="assigned-role-group">
                         <div class="main-role-title" id="runnersTitle">ראנרים</div>
                         <ul id="runnersList" class="assigned-list"></ul>
                     </div>
-
                     <div class="assigned-role-group">
                         <div class="main-role-title">מלצרים</div>
                         <div class="sub-role-title" id="waitersHallTitle">אולם</div>
@@ -307,7 +240,6 @@
                         <div class="sub-role-title" id="waitersTerraceTitle">טרסה</div>
                         <ul id="waitersTerraceList" class="assigned-list"></ul>
                     </div>
-
                     <div class="assigned-role-group">
                         <div class="main-role-title">מארחת</div>
                         <div class="sub-role-title" id="hostessHallTitle">אולם</div>
@@ -315,7 +247,6 @@
                         <div class="sub-role-title" id="hostessTerraceTitle">טרסה</div>
                         <ul id="hostessTerraceList" class="assigned-list"></ul>
                     </div>
-
                     <div class="assigned-role-group">
                         <div class="main-role-title" id="tastingsTitle">טעימות</div>
                         <ul id="tastingsList" class="assigned-list"></ul>
@@ -328,7 +259,8 @@
 
 <script>
     const SHEET_ID = "1PbQJ04f1U-TGMWvULScDo540MhFosePKuPMBT-f98HQ";
-    const URLS = [`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`];
+    const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
     let allDaysData = {};
     let assignments = {};
 
@@ -337,22 +269,13 @@
         document.getElementById("errorMessage").style.display = "block";
         document.getElementById("loadingMessage").style.display = "none";
     };
+
     const showSuccess = () => {
         document.getElementById("errorMessage").style.display = "none";
         document.getElementById("loadingMessage").style.display = "none";
         document.getElementById("daysTable").style.display = "table";
     };
-    const tryFetchData = async () => {
-        try {
-            const response = await fetch(URLS[0]);
-            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-            const text = await response.text();
-            return parseCsvData(text);
-        } catch (error) {
-            console.error("Critical error fetching data:", error);
-            throw error;
-        }
-    };
+
     const parseCsvData = (csvText) => {
         const lines = csvText.trim().split(/\r?\n/);
         if (lines.length === 0) throw new Error("CSV file is empty.");
@@ -365,8 +288,9 @@
                 if (header && values[index]) allDaysData[header].push(values[index]);
             });
         }
-        return { headers: headers.filter(h => h), allDaysData };
+        return { headers: headers.filter(h => h) };
     };
+
     const renderTable = (headers) => {
         const tableHeaders = document.getElementById("tableHeaders");
         tableHeaders.innerHTML = headers.map(h => `<th data-day="${h}">${h}</th>`).join("");
@@ -375,17 +299,18 @@
         });
     };
 
-    tryFetchData()
-        .then(({ headers }) => {
-            renderTable(headers);
-            showSuccess();
-        })
-        .catch(error => showError(`שגיאה בטעינת הנתונים. ודא שהגיליון פורסם לאינטרנט כ-CSV. שגיאה: ${error.message}`));
+    const loadAssignmentsFromStorage = () => {
+        const savedAssignments = sessionStorage.getItem('workSchedule');
+        if (savedAssignments) {
+            assignments = JSON.parse(savedAssignments);
+        }
+    };
 
     const openModal = (day) => {
         const modal = document.getElementById("assignmentModal");
         modal.querySelector("#modalTitle").textContent = `שיבוץ ליום ${day}`;
         modal.dataset.currentDay = day;
+
         if (!assignments[day]) {
             assignments[day] = {
                 runners: [],
@@ -394,7 +319,6 @@
                 tastings: []
             };
         }
-
         document.getElementById('workerSearchInput').value = '';
         updateWorkerLists(day);
         modal.style.display = "flex";
@@ -482,6 +406,7 @@
             }
         }
         updateWorkerLists(day);
+        sessionStorage.setItem('workSchedule', JSON.stringify(assignments));
     };
 
     const unassignWorker = (workerName, role, subRole = null) => {
@@ -498,17 +423,17 @@
             }
         }
         updateWorkerLists(day);
+        sessionStorage.setItem('workSchedule', JSON.stringify(assignments));
     };
 
     window.onclick = (event) => {
-        if (event.target == document.getElementById("assignmentModal")) {
+        if (event.target === document.getElementById("assignmentModal")) {
             closeModal();
         }
-    }
+    };
 
     const showSummary = () => {
-        sessionStorage.setItem('workSchedule', JSON.stringify(assignments));
-        window.location.href = 'index.html'; // ודא שהשם של קובץ הסיכום נכון
+        window.location.href = 'summary.html';
     };
 
     const filterAvailableWorkers = () => {
@@ -516,7 +441,6 @@
         const filter = input.value.toLowerCase();
         const ul = document.getElementById('availableWorkersList');
         const li = ul.getElementsByClassName('user-item');
-
         for (let i = 0; i < li.length; i++) {
             const span = li[i].getElementsByClassName('user-name')[0];
             const txtValue = span.textContent || span.innerText;
@@ -527,7 +451,21 @@
             }
         }
     };
-</script>
 
+    document.addEventListener('DOMContentLoaded', async () => {
+        loadAssignmentsFromStorage();
+        try {
+            const response = await fetch(URL);
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+            const text = await response.text();
+            const { headers } = parseCsvData(text);
+            renderTable(headers);
+            showSuccess();
+        } catch (error) {
+            showError(`שגיאה בטעינת הנתונים. ודא שהגיליון פורסם לאינטרנט כ-CSV. שגיאה: ${error.message}`);
+        }
+    });
+
+</script>
 </body>
 </html>
