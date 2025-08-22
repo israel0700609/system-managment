@@ -1,229 +1,227 @@
+    
 <!DOCTYPE html>
 <html lang="he">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>סיכום סידור עבודה</title>
+<title>סיכום סידור עבודה - לפי ימים</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- נוספו ספריות לייצוא PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 :root {
-    --primary-color: #007bff;
-    --light-gray: #f8f9fa;
-    --text-color: #212529;
-    --border-color: #dee2e6;
-    --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
-    --border-radius: 0.5rem;
-
-    /* צבעים אחידים לכל התפקידים */
-    --runner-bg: #28a745; --runner-text: #ffffff;
-    --waiter-hall-bg: #007bff; --waiter-hall-text: #ffffff;
-    --waiter-terrace-bg: #0056b3; --waiter-terrace-text: #ffffff;
-    --hostess-hall-bg: #ffc107; --hostess-hall-text: #212529;
-    --hostess-terrace-bg: #e0a800; --hostess-terrace-text: #212529;
-    --tastings-bg: #17a2b8; --tastings-text: #ffffff;
+    --primary-color: #007bff; --light-gray: #f8f9fa; --text-color: #313e4b;
+    --border-color: #dee2e6; --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
+    --border-radius: 0.5rem; --runner-bg: #28a745; --waiter-hall-bg: #38516d;
+    --waiter-terrace-bg: #022346; --hostess-hall-bg: #96009b;
+    --hostess-terrace-bg: #ff7fc7; --tastings-bg: #17a2b8;
 }
 body {
-    font-family: 'Rubik', sans-serif;
-    direction: rtl;
-    padding: 20px;
-    background-color: var(--light-gray);
-    color: var(--text-color);
+    font-family: 'Rubik', sans-serif; direction: rtl; padding: 20px;
+    background-color: var(--light-gray); color: var(--text-color);
 }
 .container {
-    max-width: 95%;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    max-width: 95%; margin: 0 auto; background-color: #fff;
+    padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow-md);
 }
-h2 {
+h2 { text-align: center; margin-bottom: 20px; font-size: 2.2rem; }
+.legend {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 15px; margin-bottom: 30px;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.legend-color { width: 20px; height: 20px; border-radius: 4px; display: inline-block; }
+#scheduleByDayContainer {
+    display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 20px;
+}
+.day-column {
+    flex: 1 1 220px; background-color: #f2f2f2; padding: 15px;
+    border-radius: var(--border-radius); box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.2rem;
 }
-#scheduleTableContainer {
-    width: 100%;
-    overflow-x: auto;
+.day-title {
+    font-size: 1.5rem; font-weight: 700;
+    margin-bottom: 15px; color: var(--primary-color);
 }
-#scheduleTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 16px;
-    table-layout: fixed;
-}
-#scheduleTable th, #scheduleTable td {
-    border: 1px solid var(--border-color);
-    padding: 12px;
-    text-align: center;
-    min-width: 150px;
-}
-#scheduleTable thead th {
-    background-color: var(--primary-color);
-    color: white;
+.day-title .arrival-time {
     font-weight: 500;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    color: #555;
 }
-#scheduleTable tbody th {
-    background-color: var(--light-gray);
-    font-weight: 500;
-    text-align: right;
-    position: sticky;
-    right: 0;
-    z-index: 5;
+.worker-list { list-style: none; padding: 0; margin: 0; }
+.worker-item {
+    padding: 8px; margin-bottom: 8px; border-radius: 5px;
+    font-weight: 500; color: white;
 }
-#scheduleTable tbody tr:nth-child(even) { background-color: #f2f2f2; }
-#scheduleTable tbody tr:nth-child(even) th { background-color: #e9ecef; }
-.role-cell {
-    font-weight: 500;
-    border-radius: 4px;
-    display: inline-block;
-    padding: 5px 10px;
-    min-width: 90px;
-    box-sizing: border-box;
-}
-/* צבעים לפי תפקיד */
-.role-runners { background-color: var(--runner-bg); color: var(--runner-text); }
-.role-waiters-hall { background-color: var(--waiter-hall-bg); color: var(--waiter-hall-text); }
-.role-waiters-terrace { background-color: var(--waiter-terrace-bg); color: var(--waiter-terrace-text); }
-.role-hostess-hall { background-color: var(--hostess-hall-bg); color: var(--hostess-hall-text); }
-.role-hostess-terrace { background-color: var(--hostess-terrace-bg); color: var(--hostess-terrace-text); }
-.role-tastings { background-color: var(--tastings-bg); color: var(--tastings-text); }
+.role-runners { background-color: var(--runner-bg); }
+.role-waiters-hall { background-color: var(--waiter-hall-bg); }
+.role-waiters-terrace { background-color: var(--waiter-terrace-bg); }
+.role-hostess-hall { background-color: var(--hostess-hall-bg); color: var(--text-color); }
+.role-hostess-terrace { background-color: var(--hostess-terrace-bg); color: var(--text-color); }
+.role-tastings { background-color: var(--tastings-bg); }
 #no-data-message { display: none; text-align: center; font-size: 1.2rem; }
-.navigation-buttons { text-align: center; margin-top: 30px; }
+.navigation-buttons { text-align: center; margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
 .nav-button {
-    padding: 12px 25px;
-    font-size: 1.1rem;
-    color: #fff;
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s ease;
+    padding: 12px 25px; font-size: 1.1rem; color: #fff; background-color: var(--primary-color);
+    border: none; border-radius: var(--border-radius); cursor: pointer;
+    text-decoration: none; transition: all 0.2s ease;
 }
 .nav-button:hover { filter: brightness(110%); }
+#export-pdf-btn { background-color: #6c757d; }
+#export-pdf-btn:disabled { background-color: #aaa; cursor: not-allowed; }
 </style>
 </head>
 <body>
-<div class="container">
-    <h2>סיכום סידור עבודה</h2>
-    <div id="scheduleTableContainer"></div>
-    <div id="no-data-message">
-        <p>לא נמצא סידור עבודה. יש לחזור לדף הראשי ולשבץ עובדים תחילה.</p>
+<div id="capture">
+    <div class="container">
+        <h2>סיכום סידור עבודה - לפי ימים</h2>
+        <div class="legend">
+            <div class="legend-item"><span class="legend-color" style="background-color: var(--runner-bg);"></span>ראנר</div>
+            <div class="legend-item"><span class="legend-color" style="background-color: var(--waiter-hall-bg);"></span>מלצר אולם</div>
+            <div class="legend-item"><span class="legend-color" style="background-color: var(--waiter-terrace-bg);"></span>מלצר טרסה</div>
+            <div class="legend-item"><span class="legend-color" style="background-color: var(--tastings-bg);"></span>טעימות</div>
+            <div class="legend-item"><span class="legend-color" style="background-color: var(--hostess-hall-bg);"></span>מארחת אולם</div>
+            <div class="legend-item"><span class="legend-color" style="background-color: var(--hostess-terrace-bg);"></span>מארחת טרסה</div>
+        </div>
+        <div id="scheduleByDayContainer"></div>
+        <div id="no-data-message">
+            <p>לא נמצא סידור עבודה. יש לחזור לדף הראשי ולשבץ עובדים תחילה.</p>
+        </div>
     </div>
-    <div class="navigation-buttons">
-        <a href="main.html" class="nav-button">חזרה לדף השיבוץ</a>
-    </div>
+</div>
+
+<div class="navigation-buttons">
+    <a href="main.html" class="nav-button">חזרה לדף השיבוץ</a>
+    <button id="export-pdf-btn" class="nav-button">ייצוא ל-PDF</button>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // קוד ה-JavaScript הקיים להצגת הסידור נשאר ללא שינוי
     const scheduleDataString = sessionStorage.getItem('workSchedule');
     if (!scheduleDataString) {
         document.getElementById('no-data-message').style.display = 'block';
+        document.getElementById('export-pdf-btn').style.display = 'none';
         return;
     }
-
     const schedule = JSON.parse(scheduleDataString);
-
-    const allDays = new Set();
-    const allWorkers = new Set();
-    const assignmentsMap = new Map();
-
-    const roleTranslations = {
-        runners: 'ראנר',
-        waiters_hall: 'מלצר אולם',
-        waiters_terrace: 'מלצר טרסה',
-        hostess_hall: 'מארחת אולם',
-        hostess_terrace: 'מארחת טרסה',
-        tastings: 'טעימות'
-    };
-
-    for (const day in schedule) {
-        const dayAssignments = schedule[day];
-        let hasAssignments = false;
-
-        const processRole = (workers, roleKey) => {
-            if (workers && workers.length > 0) {
-                hasAssignments = true;
-                workers.forEach(worker => {
-                    allWorkers.add(worker);
-                    const mapKey = `${worker},${day}`;
-                    assignmentsMap.set(mapKey, roleTranslations[roleKey]);
-                });
-            }
-        };
-
-        processRole(dayAssignments.runners, 'runners');
-        processRole(dayAssignments.tastings, 'tastings');
-        if (dayAssignments.waiters) {
-            processRole(dayAssignments.waiters.hall, 'waiters_hall');
-            processRole(dayAssignments.waiters.terrace, 'waiters_terrace');
-        }
-        if (dayAssignments.hostess) {
-            processRole(dayAssignments.hostess.hall, 'hostess_hall');
-            processRole(dayAssignments.hostess.terrace, 'hostess_terrace');
-        }
-        if (hasAssignments) {
-            allDays.add(day);
-        }
-    }
-
-    if (allWorkers.size === 0) {
-        document.getElementById('no-data-message').style.display = 'block';
-        return;
-    }
-
+    const container = document.getElementById('scheduleByDayContainer');
     const dayOrder = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
-    const sortedDays = Array.from(allDays).sort((a, b) => {
-        const indexA = dayOrder.indexOf(a.trim());
-        const indexB = dayOrder.indexOf(b.trim());
-        if (indexA === -1) return 1;
-        if (indexB === -1) return -1;
-        return indexA - indexB;
-    });
-
-    const sortedWorkers = Array.from(allWorkers).sort();
-
-    const tableContainer = document.getElementById('scheduleTableContainer');
-    const table = document.createElement('table');
-    table.id = 'scheduleTable';
-
-    const thead = table.createTHead();
-    const headerRow = thead.insertRow();
-    headerRow.insertCell().textContent = 'שם עובד';
-    sortedDays.forEach(day => {
-        const th = document.createElement('th');
-        th.textContent = day;
-        headerRow.appendChild(th);
-    });
-
-    const tbody = table.createTBody();
-    sortedWorkers.forEach(worker => {
-        const row = tbody.insertRow();
-        const nameCell = document.createElement('th');
-        nameCell.textContent = worker;
-        row.appendChild(nameCell);
-
-        sortedDays.forEach(day => {
-            const cell = row.insertCell();
-            const mapKey = `${worker},${day}`;
-            const role = assignmentsMap.get(mapKey);
-            if (role) {
-                const roleKey = Object.keys(roleTranslations).find(k => roleTranslations[k] === role);
-                cell.innerHTML = `<span class="role-cell role-${roleKey.replace('_', '-')}">${role}</span>`;
+    const MAX_PER_COLUMN = 30;
+    let hasAssignments = false;
+    dayOrder.forEach(day => {
+        if (schedule[day]) {
+            const dayData = schedule[day];
+            const mapWorker = (worker) => ({ name: worker.name });
+            const runners = (dayData.runners || []).map(mapWorker).sort((a,b) => a.name.localeCompare(b.name, 'he'));
+            const waitersHall = (dayData.waiters?.hall || []).map(mapWorker).sort((a,b) => a.name.localeCompare(b.name, 'he'));
+            const waitersTerrace = (dayData.waiters?.terrace || []).map(mapWorker).sort((a,b) => a.name.localeCompare(b.name, 'he'));
+            const tastings = (dayData.tastings || []).map(mapWorker).sort((a,b) => a.name.localeCompare(b.name, 'he'));
+            const hostessHall = (dayData.hostess?.hall || []).map(mapWorker).sort((a,b) => a.name.localeCompare(b.name, 'he'));
+            const hostessTerrace = (dayData.hostess?.terrace || []).map(mapWorker).sort((a,b) => a.name.localeCompare(b.name, 'he'));
+            const addRole = (workers, role) => workers.forEach(w => w.role = role);
+            addRole(runners, 'role-runners');
+            addRole(waitersHall, 'role-waiters-hall');
+            addRole(waitersTerrace, 'role-waiters-terrace');
+            addRole(tastings, 'role-tastings');
+            addRole(hostessHall, 'role-hostess-hall');
+            addRole(hostessTerrace, 'role-hostess-terrace');
+            const allWorkers = [...runners, ...waitersHall, ...waitersTerrace, ...tastings, ...hostessHall, ...hostessTerrace];
+            if (allWorkers.length > 0) {
+                hasAssignments = true;
+                const totalColumns = Math.ceil(allWorkers.length / MAX_PER_COLUMN);
+                for (let col = 0; col < totalColumns; col++) {
+                    const dayColumn = document.createElement('div');
+                    dayColumn.className = 'day-column';
+                    const dayTitle = document.createElement('h3');
+                    dayTitle.className = 'day-title';
+                    let titleHTML = col === 0 ? day : `${day} - המשך`;
+                    if (dayData.arrivalTime) titleHTML += ` <span class="arrival-time">- ${dayData.arrivalTime}</span>`;
+                    dayTitle.innerHTML = titleHTML;
+                    dayColumn.appendChild(dayTitle);
+                    const workerList = document.createElement('ul');
+                    workerList.className = 'worker-list';
+                    const startIndex = col * MAX_PER_COLUMN;
+                    const endIndex = Math.min(startIndex + MAX_PER_COLUMN, allWorkers.length);
+                    const workersInThisColumn = allWorkers.slice(startIndex, endIndex);
+                    workersInThisColumn.forEach(worker => {
+                        const workerItem = document.createElement('li');
+                        workerItem.className = `worker-item ${worker.role}`;
+                        workerItem.textContent = worker.name;
+                        workerList.appendChild(workerItem);
+                    });
+                    dayColumn.appendChild(workerList);
+                    container.appendChild(dayColumn);
+                }
             }
-        });
+        }
     });
-    tableContainer.appendChild(table);
+    if (!hasAssignments) {
+        document.getElementById('no-data-message').style.display = 'block';
+        document.getElementById('export-pdf-btn').style.display = 'none';
+    }
+});
+
+// =========================================================================
+// ============ קוד ייצוא PDF משופר - לעמוד אחד ארוך ורציף ============
+// =========================================================================
+document.getElementById('export-pdf-btn').addEventListener('click', async () => {
+    const exportButton = document.getElementById('export-pdf-btn');
+    const originalButtonText = exportButton.textContent;
+
+    try {
+        exportButton.textContent = 'מייצא, נא להמתין...';
+        exportButton.disabled = true;
+
+        const { jsPDF } = window.jspdf;
+        const elementToCapture = document.getElementById('capture');
+
+        const canvas = await html2canvas(elementToCapture, {
+            scale: 3, // שמירה על רזולוציה גבוהה לאיכות מעולה
+            useCORS: true,
+            windowWidth: elementToCapture.scrollWidth,
+            windowHeight: elementToCapture.scrollHeight,
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        
+        // חישוב יחס הגובה-רוחב של התמונה שנוצרה
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasHeight / canvasWidth;
+
+        // הגדרת רוחב ה-PDF (רוחב של דף A4)
+        const pdfWidth = 210;
+        // חישוב גובה ה-PDF לפי יחס הגובה-רוחב כדי שכל התוכן ייכנס
+        const pdfHeight = pdfWidth * ratio;
+
+        // יצירת מסמך PDF עם המידות המותאמות אישית
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            // במקום 'a4', אנחנו מספקים מערך של [רוחב, גובה]
+            format: [pdfWidth, pdfHeight]
+        });
+
+        // הוספת התמונה לעמוד היחיד והארוך
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save("work-schedule-long.pdf");
+
+    } catch (error) {
+        console.error("An error occurred during PDF export:", error);
+        alert("אירעה שגיאה במהלך ייצוא ה-PDF.");
+    } finally {
+        exportButton.textContent = originalButtonText;
+        exportButton.disabled = false;
+    }
 });
 </script>
 </body>
 </html>
+
+  
