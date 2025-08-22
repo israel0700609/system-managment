@@ -19,33 +19,20 @@
     --border-radius: 0.5rem;
 
     /* צבעים אחידים לכל התפקידים */
-    --runner-bg: #28a745;
-    --runner-text: #ffffff;
-
-    --waiter-hall-bg: #007bff;
-    --waiter-hall-text: #ffffff;
-
-    --waiter-terrace-bg: #0056b3;
-    --waiter-terrace-text: #ffffff;
-
-    --hostess-hall-bg: #ffc107;
-    --hostess-hall-text: #212529;
-
-    --hostess-terrace-bg: #e0a800;
-    --hostess-terrace-text: #212529;
-
-    --tastings-bg: #17a2b8;
-    --tastings-text: #ffffff;
+    --runner-bg: #28a745; --runner-text: #ffffff;
+    --waiter-hall-bg: #007bff; --waiter-hall-text: #ffffff;
+    --waiter-terrace-bg: #0056b3; --waiter-terrace-text: #ffffff;
+    --hostess-hall-bg: #ffc107; --hostess-hall-text: #212529;
+    --hostess-terrace-bg: #e0a800; --hostess-terrace-text: #212529;
+    --tastings-bg: #17a2b8; --tastings-text: #ffffff;
 }
-
 body {
-    font-family: 'Rubik', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Rubik', sans-serif;
     direction: rtl;
     padding: 20px;
     background-color: var(--light-gray);
     color: var(--text-color);
 }
-
 .container {
     max-width: 95%;
     margin: 0 auto;
@@ -54,32 +41,27 @@ body {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
 }
-
 h2 {
     text-align: center;
     margin-bottom: 30px;
     font-size: 2.2rem;
 }
-
 #scheduleTableContainer {
     width: 100%;
     overflow-x: auto;
 }
-
 #scheduleTable {
     width: 100%;
     border-collapse: collapse;
     font-size: 16px;
     table-layout: fixed;
 }
-
 #scheduleTable th, #scheduleTable td {
     border: 1px solid var(--border-color);
     padding: 12px;
     text-align: center;
     min-width: 150px;
 }
-
 #scheduleTable thead th {
     background-color: var(--primary-color);
     color: white;
@@ -88,7 +70,6 @@ h2 {
     top: 0;
     z-index: 10;
 }
-
 #scheduleTable tbody th {
     background-color: var(--light-gray);
     font-weight: 500;
@@ -97,14 +78,8 @@ h2 {
     right: 0;
     z-index: 5;
 }
-
-#scheduleTable tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-#scheduleTable tbody tr:nth-child(even) th {
-    background-color: #e9ecef;
-}
-
+#scheduleTable tbody tr:nth-child(even) { background-color: #f2f2f2; }
+#scheduleTable tbody tr:nth-child(even) th { background-color: #e9ecef; }
 .role-cell {
     font-weight: 500;
     border-radius: 4px;
@@ -113,7 +88,6 @@ h2 {
     min-width: 90px;
     box-sizing: border-box;
 }
-
 /* צבעים לפי תפקיד */
 .role-runners { background-color: var(--runner-bg); color: var(--runner-text); }
 .role-waiters-hall { background-color: var(--waiter-hall-bg); color: var(--waiter-hall-text); }
@@ -121,9 +95,7 @@ h2 {
 .role-hostess-hall { background-color: var(--hostess-hall-bg); color: var(--hostess-hall-text); }
 .role-hostess-terrace { background-color: var(--hostess-terrace-bg); color: var(--hostess-terrace-text); }
 .role-tastings { background-color: var(--tastings-bg); color: var(--tastings-text); }
-
 #no-data-message { display: none; text-align: center; font-size: 1.2rem; }
-
 .navigation-buttons { text-align: center; margin-top: 30px; }
 .nav-button {
     padding: 12px 25px;
@@ -136,21 +108,16 @@ h2 {
     text-decoration: none;
     transition: all 0.2s ease;
 }
-.nav-button:hover {
-    filter: brightness(110%);
-}
+.nav-button:hover { filter: brightness(110%); }
 </style>
 </head>
 <body>
 <div class="container">
     <h2>סיכום סידור עבודה</h2>
-
     <div id="scheduleTableContainer"></div>
-
     <div id="no-data-message">
         <p>לא נמצא סידור עבודה. יש לחזור לדף הראשי ולשבץ עובדים תחילה.</p>
     </div>
-
     <div class="navigation-buttons">
         <a href="main.html" class="nav-button">חזרה לדף השיבוץ</a>
     </div>
@@ -204,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
             processRole(dayAssignments.hostess.hall, 'hostess_hall');
             processRole(dayAssignments.hostess.terrace, 'hostess_terrace');
         }
-
         if (hasAssignments) {
             allDays.add(day);
         }
@@ -256,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
     tableContainer.appendChild(table);
 });
 </script>
