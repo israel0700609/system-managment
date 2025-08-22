@@ -5,93 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מערכת שיבוץ עובדים</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* ======================================== */
-        /* ===          עיצוב UI משופר          === */
-        /* ======================================== */
         :root {
-            --primary-color: #007bff;
-            --primary-dark-color: #0056b3;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --info-color: #17a2b8;
-            --light-gray: #f8f9fa;
-            --medium-gray: #e9ecef;
-            --dark-gray: #6c757d;
-            --text-color: #212529;
-            --border-color: #dee2e6;
-            --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
-            --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
-            --border-radius: 0.5rem;
+            --primary-color: #007bff; --primary-dark-color: #0056b3;
+            --success-color: #28a745; --light-gray: #f8f9fa;
+            --dark-gray: #6c757d; --text-color: #212529;
+            --border-color: #dee2e6; --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+            --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15); --border-radius: 0.5rem;
         }
         body {
-            font-family: 'Rubik', sans-serif;
-            direction: rtl;
-            padding: 20px;
-            background-color: var(--light-gray);
-            color: var(--text-color);
+            font-family: 'Rubik', 'Segoe UI', Arial, sans-serif; direction: rtl;
+            padding: 20px; background-color: var(--light-gray); color: var(--text-color);
+                background-image: url('64897391_2214140521987177_3125450978359246848_n.jpg');
+            background-repeat: no-repeat;
+            background-position: center top; /* ממקם את התמונה בחלק העליון במרכז */
+            background-size: 100% auto;      /* רוחב 100%, גובה אוטומטי לפי הפרופורציה */
         }
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
+            max-width: 1000px; margin: 0 auto; background-color: #fff;
+            padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow-md);
         }
-        h2 {
-            text-align: center;
-            color: var(--text-color);
-            margin-bottom: 25px;
-            font-size: 2.2rem;
-        }
+        h2 { text-align: center; color: var(--text-color); margin-bottom: 25px; font-size: 2.2rem; }
         #daysTable {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 8px;
-            margin-bottom: 20px;
+            width: 100%; border-collapse: separate;
+            border-spacing: 0 8px; margin-bottom: 20px;
         }
         #daysTable th {
-            border: 1px solid var(--border-color);
-            padding: 18px 15px;
-            text-align: center;
-            background-color: #fff;
-            color: var(--primary-color);
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
+            border: 1px solid var(--border-color); padding: 18px 15px; text-align: center;
+            background-color: #fff; color: var(--primary-color); cursor: pointer;
+            font-size: 1.2rem; font-weight: 500; transition: all 0.2s ease-in-out;
             border-radius: var(--border-radius);
         }
         #daysTable th:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
+            background-color: var(--primary-color); color: #fff;
+            transform: translateY(-2px); box-shadow: var(--shadow-sm);
         }
-        #summaryButtonContainer {
-            text-align: center;
-            margin-top: 30px;
-        }
+        #summaryButtonContainer { text-align: center; margin-top: 30px; }
         #summaryButton {
-            padding: 12px 25px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #fff;
-            background-color: var(--success-color);
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            padding: 12px 25px; font-size: 1.2rem; font-weight: 500; color: #fff;
+            background-color: var(--success-color); border: none; border-radius: var(--border-radius);
+            cursor: pointer; transition: all 0.2s ease;
         }
-        #summaryButton:hover {
-            filter: brightness(110%);
-            box-shadow: var(--shadow-sm);
-        }
+        #summaryButton:hover { filter: brightness(110%); box-shadow: var(--shadow-sm); }
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0;
             width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6);
@@ -103,42 +62,47 @@
             direction: rtl; display: flex; flex-direction: column; max-height: 90vh;
         }
         .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; flex-shrink: 0;
         }
         .modal-header h3 {
-            margin: 0; font-size: 1.8rem;
+            margin: 0; font-size: 1.8rem; width: 100%; margin-bottom: 15px;
         }
-        .modal-body {
-            display: flex; gap: 30px; overflow-y: hidden;
+        .arrival-time-wrapper {
+            display: flex; align-items: center; gap: 10px; width: 100%;
         }
+        .arrival-time-wrapper label { font-size: 1.1rem; font-weight: 500; }
+        #arrivalTimeInput {
+            padding: 8px 12px; font-size: 1.1rem; border: 1px solid var(--border-color);
+            border-radius: 6px; width: 120px; text-align: center;
+        }
+        .modal-body { display: flex; gap: 30px; overflow-y: hidden; }
         .modal-column {
-            flex: 1; background-color: var(--light-gray);
-            display: flex; flex-direction: column; min-width: 280px;
-            border-radius: var(--border-radius); border: 1px solid var(--border-color);
+            flex: 1; background-color: var(--light-gray); display: flex;
+            flex-direction: column; min-width: 280px; border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
         }
         .column-title {
-            font-weight: 700; text-align: center; margin: 0;
-            color: var(--text-color); padding: 15px; border-bottom: 1px solid var(--border-color);
-            background-color: #fff; flex-shrink: 0; font-size: 1.3rem;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            font-weight: 700; text-align: center; margin: 0; color: var(--text-color);
+            padding: 15px; border-bottom: 1px solid var(--border-color); background-color: #fff;
+            flex-shrink: 0; font-size: 1.3rem; border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
-        .search-wrapper {
-            padding: 0 15px 15px 15px; border-bottom: 1px solid var(--border-color); background-color: #fff;
-        }
+        .search-wrapper { padding: 15px; border-bottom: 1px solid var(--border-color); background-color: #fff; }
         #workerSearchInput {
             width: 100%; padding: 10px; font-size: 1rem; border: 1px solid var(--border-color);
-            border-radius: 6px; box-sizing: border-box;
+            border-radius: 6px; box-sizing: border-box; margin-bottom: 10px;
         }
-        .list-container {
-            overflow-y: auto; padding: 15px;
+        .add-worker-button {
+            width: 100%; padding: 10px; font-size: 1rem; font-weight: 500; color: #fff;
+            background-color: var(--primary-color); border: none; border-radius: 6px;
+            cursor: pointer; transition: all 0.2s ease;
         }
-        .assigned-role-group {
-            margin-bottom: 20px;
-        }
+        .add-worker-button:hover { background-color: var(--primary-dark-color); box-shadow: var(--shadow-sm); }
+        .list-container { overflow-y: auto; padding: 15px; }
+        .assigned-role-group { margin-bottom: 20px; }
         .main-role-title {
-            font-weight: 700; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px;
-            border-bottom: 2px solid var(--medium-gray);
+            font-weight: 700; font-size: 1.2em; margin-bottom: 12px;
+            padding-bottom: 8px; border-bottom: 2px solid var(--medium-gray);
         }
         .sub-role-title {
             font-size: 1.05em; color: var(--dark-gray); font-weight: 500;
@@ -149,42 +113,38 @@
             border: 1px solid var(--border-color); border-radius: 6px;
             transition: all 0.2s ease; font-size: 1.1rem;
         }
-        .user-item {
-            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-        }
-        .assigned-list li {
-            cursor: pointer;
-        }
+        .user-item { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+        .assigned-list li { cursor: pointer; }
         .assigned-list li:hover {
-            background-color: #ffebee; border-color: #ef9a9a; text-decoration: line-through; color: #c62828;
+            background-color: #ffebee; border-color: #ef9a9a;
+            text-decoration: line-through; color: #c62828;
         }
-        .user-name {
-            font-weight: 500; margin-bottom: 10px; width: 100%;
-        }
-        .assign-buttons {
-            display: flex; gap: 6px; flex-wrap: wrap; width: 100%;
-        }
+        .user-name { font-weight: 500; margin-bottom: 10px; width: 100%; }
+        .assign-buttons { display: flex; gap: 6px; flex-wrap: wrap; width: 100%; }
         .assign-buttons button {
             padding: 8px 10px; border: none; border-radius: 6px; cursor: pointer;
             font-size: 14px; flex-grow: 1; font-weight: 500;
             transition: filter 0.2s ease, transform 0.2s ease;
         }
-        .assign-buttons button:hover {
-            filter: brightness(110%); transform: translateY(-1px);
+        .assign-buttons button:hover { filter: brightness(110%); transform: translateY(-1px); }
+        .assign-buttons .runner { background-color: #28a745; color: white; }
+        .assign-buttons .waiter-hall { background-color: #38516d; color: white; }
+        .assign-buttons .waiter-terrace { background-color: #022346; color: white; }
+        .assign-buttons .hostess-hall { background-color: #96009b; color: var(--text-color); }
+        .assign-buttons .hostess-terrace { background-color: #ff7fc7; color: var(--text-color); }
+        .assign-buttons .tastings { background-color: #17a2b8; color: white; }
+        .close-button {
+            color: #aaa; font-size: 40px; font-weight: bold; cursor: pointer;
+            transition: color 0.2s ease; margin-left: auto;
         }
-        .assign-buttons .runner { background-color: var(--success-color); color: white; }
-        .assign-buttons .waiter-hall { background-color: var(--primary-color); color: white; }
-        .assign-buttons .waiter-terrace { background-color: var(--primary-dark-color); color: white; }
-        .assign-buttons .hostess-hall { background-color: var(--warning-color); color: var(--text-color); }
-        .assign-buttons .hostess-terrace { background-color: #e0a800; color: var(--text-color); }
-        .assign-buttons .tastings { background-color: var(--info-color); color: white; }
-        .close-button { color: #aaa; font-size: 40px; font-weight: bold; cursor: pointer; transition: color 0.2s ease; }
         .close-button:hover { color: #333; }
         .error-message, .loading-message {
-            padding: 15px; border-radius: var(--border-radius); margin-bottom: 20px; text-align: center; font-size: 1.1rem;
+            padding: 15px; border-radius: var(--border-radius); margin-bottom: 20px;
+            text-align: center; font-size: 1.1rem;
         }
         .error-message { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         .loading-message { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
         @media (max-width: 768px) {
             body { padding: 10px; font-size: 16px; }
             .container { padding: 15px; }
@@ -203,7 +163,6 @@
     <p style="text-align: center; font-size: 1.2rem; color: var(--dark-gray);">לחץ על היום הרצוי כדי להתחיל בשיבוץ.</p>
     <table id="daysTable" style="display: none;">
         <thead><tr id="tableHeaders"></tr></thead>
-        <tbody id="tableBody"></tbody>
     </table>
     <div id="summaryButtonContainer">
         <button id="summaryButton" onclick="showSummary()">צפייה בסיכום</button>
@@ -215,42 +174,38 @@
         <div class="modal-header">
             <h3 id="modalTitle"></h3>
             <span class="close-button" onclick="closeModal()">&times;</span>
+            <div class="arrival-time-wrapper">
+                <label for="arrivalTimeInput">שעת הגעה כללית:</label>
+                <input type="text" id="arrivalTimeInput" value="17:00" oninput="saveArrivalTime()">
+            </div>
         </div>
         <div class="modal-body">
             <div class="modal-column">
                 <div class="column-title" id="availableWorkersTitle">עובדים זמינים</div>
                 <div class="search-wrapper">
                     <input type="text" id="workerSearchInput" onkeyup="filterAvailableWorkers()" placeholder="חיפוש עובד...">
+                    <button class="add-worker-button" onclick="addAvailableWorker()">הוסף עובד זמין +</button>
                 </div>
                 <div class="list-container">
                     <ul id="availableWorkersList" class="user-list"></ul>
                 </div>
             </div>
+
             <div class="modal-column">
                 <div class="column-title">עובדים משובצים</div>
                 <div class="list-container" id="assignedWorkersContainer">
-                    <div class="assigned-role-group">
-                        <div class="main-role-title" id="runnersTitle">ראנרים</div>
-                        <ul id="runnersList" class="assigned-list"></ul>
-                    </div>
+                    <div class="assigned-role-group"><div class="main-role-title" id="runnersTitle">ראנרים</div><ul id="runnersList" class="assigned-list"></ul></div>
                     <div class="assigned-role-group">
                         <div class="main-role-title">מלצרים</div>
-                        <div class="sub-role-title" id="waitersHallTitle">אולם</div>
-                        <ul id="waitersHallList" class="assigned-list"></ul>
-                        <div class="sub-role-title" id="waitersTerraceTitle">טרסה</div>
-                        <ul id="waitersTerraceList" class="assigned-list"></ul>
+                        <div class="sub-role-title" id="waitersHallTitle">אולם</div><ul id="waitersHallList" class="assigned-list"></ul>
+                        <div class="sub-role-title" id="waitersTerraceTitle">טרסה</div><ul id="waitersTerraceList" class="assigned-list"></ul>
                     </div>
                     <div class="assigned-role-group">
                         <div class="main-role-title">מארחת</div>
-                        <div class="sub-role-title" id="hostessHallTitle">אולם</div>
-                        <ul id="hostessHallList" class="assigned-list"></ul>
-                        <div class="sub-role-title" id="hostessTerraceTitle">טרסה</div>
-                        <ul id="hostessTerraceList" class="assigned-list"></ul>
+                        <div class="sub-role-title" id="hostessHallTitle">אולם</div><ul id="hostessHallList" class="assigned-list"></ul>
+                        <div class="sub-role-title" id="hostessTerraceTitle">טרסה</div><ul id="hostessTerraceList" class="assigned-list"></ul>
                     </div>
-                    <div class="assigned-role-group">
-                        <div class="main-role-title" id="tastingsTitle">טעימות</div>
-                        <ul id="tastingsList" class="assigned-list"></ul>
-                    </div>
+                    <div class="assigned-role-group"><div class="main-role-title" id="tastingsTitle">טעימות</div><ul id="tastingsList" class="assigned-list"></ul></div>
                 </div>
             </div>
         </div>
@@ -259,8 +214,7 @@
 
 <script>
     const SHEET_ID = "1PbQJ04f1U-TGMWvULScDo540MhFosePKuPMBT-f98HQ";
-    const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
-
+    const URLS = [`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`];
     let allDaysData = {};
     let assignments = {};
 
@@ -269,13 +223,22 @@
         document.getElementById("errorMessage").style.display = "block";
         document.getElementById("loadingMessage").style.display = "none";
     };
-
     const showSuccess = () => {
         document.getElementById("errorMessage").style.display = "none";
         document.getElementById("loadingMessage").style.display = "none";
         document.getElementById("daysTable").style.display = "table";
     };
-
+    const tryFetchData = async () => {
+        try {
+            const response = await fetch(URLS[0]);
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+            const text = await response.text();
+            return parseCsvData(text);
+        } catch (error) {
+            console.error("Critical error fetching data:", error);
+            throw error;
+        }
+    };
     const parseCsvData = (csvText) => {
         const lines = csvText.trim().split(/\r?\n/);
         if (lines.length === 0) throw new Error("CSV file is empty.");
@@ -288,9 +251,8 @@
                 if (header && values[index]) allDaysData[header].push(values[index]);
             });
         }
-        return { headers: headers.filter(h => h) };
+        return { headers: headers.filter(h => h), allDaysData };
     };
-
     const renderTable = (headers) => {
         const tableHeaders = document.getElementById("tableHeaders");
         tableHeaders.innerHTML = headers.map(h => `<th data-day="${h}">${h}</th>`).join("");
@@ -299,12 +261,9 @@
         });
     };
 
-    const loadAssignmentsFromStorage = () => {
-        const savedAssignments = sessionStorage.getItem('workSchedule');
-        if (savedAssignments) {
-            assignments = JSON.parse(savedAssignments);
-        }
-    };
+    tryFetchData()
+        .then(({ headers }) => { renderTable(headers); showSuccess(); })
+        .catch(error => showError(`שגיאה בטעינת הנתונים. ודא שהגיליון פורסם כ-CSV. שגיאה: ${error.message}`));
 
     const openModal = (day) => {
         const modal = document.getElementById("assignmentModal");
@@ -313,12 +272,13 @@
 
         if (!assignments[day]) {
             assignments[day] = {
-                runners: [],
-                waiters: { hall: [], terrace: [] },
-                hostess: { hall: [], terrace: [] },
-                tastings: []
+                runners: [], waiters: { hall: [], terrace: [] },
+                hostess: { hall: [], terrace: [] }, tastings: [],
+                arrivalTime: "17:00"
             };
         }
+
+        document.getElementById('arrivalTimeInput').value = assignments[day].arrivalTime || "17:00";
         document.getElementById('workerSearchInput').value = '';
         updateWorkerLists(day);
         modal.style.display = "flex";
@@ -330,24 +290,20 @@
 
     const updateWorkerLists = (day) => {
         const lists = {
-            available: document.getElementById("availableWorkersList"),
-            runners: document.getElementById("runnersList"),
-            waitersHall: document.getElementById("waitersHallList"),
-            waitersTerrace: document.getElementById("waitersTerraceList"),
-            hostessHall: document.getElementById("hostessHallList"),
-            hostessTerrace: document.getElementById("hostessTerraceList"),
+            available: document.getElementById("availableWorkersList"), runners: document.getElementById("runnersList"),
+            waitersHall: document.getElementById("waitersHallList"), waitersTerrace: document.getElementById("waitersTerraceList"),
+            hostessHall: document.getElementById("hostessHallList"), hostessTerrace: document.getElementById("hostessTerraceList"),
             tastings: document.getElementById("tastingsList")
         };
         Object.values(lists).forEach(list => list.innerHTML = '');
 
         const assignedForDay = assignments[day];
         const allAvailableForDay = allDaysData[day] || [];
-
+        
         const assignedNames = [
-            ...assignedForDay.runners,
-            ...assignedForDay.waiters.hall, ...assignedForDay.waiters.terrace,
-            ...assignedForDay.hostess.hall, ...assignedForDay.hostess.terrace,
-            ...assignedForDay.tastings
+            ...assignedForDay.runners.map(w => w.name), ...assignedForDay.waiters.hall.map(w => w.name),
+            ...assignedForDay.waiters.terrace.map(w => w.name), ...assignedForDay.hostess.hall.map(w => w.name),
+            ...assignedForDay.hostess.terrace.map(w => w.name), ...assignedForDay.tastings.map(w => w.name)
         ];
 
         const availableWorkers = allAvailableForDay.filter(name => name && !assignedNames.includes(name));
@@ -355,8 +311,7 @@
         availableWorkers.forEach(workerName => {
             const listItem = document.createElement("li");
             listItem.className = "user-item";
-            listItem.innerHTML = `
-                <span class="user-name">${workerName}</span>
+            listItem.innerHTML = `<span class="user-name">${workerName}</span>
                 <div class="assign-buttons">
                     <button class="runner" onclick="assignWorker('${workerName}', 'runners')">ראנר</button>
                     <button class="waiter-hall" onclick="assignWorker('${workerName}', 'waiters', 'hall')">מלצר אולם</button>
@@ -367,21 +322,23 @@
                 </div>`;
             lists.available.appendChild(listItem);
         });
-
-        const createAssignedItem = (name, role, subRole = null) => {
+        
+        // ============== שינוי: הצגת שם העובד בלבד ==============
+        const createAssignedItem = (worker, role, subRole = null) => {
             const item = document.createElement("li");
-            item.textContent = name;
+            item.textContent = worker.name; // מציג רק את השם
             item.title = "לחץ להסרה";
-            item.onclick = () => unassignWorker(name, role, subRole);
+            item.onclick = () => unassignWorker(worker.name, role, subRole);
             return item;
         };
-
-        assignedForDay.runners.forEach(name => lists.runners.appendChild(createAssignedItem(name, 'runners')));
-        assignedForDay.waiters.hall.forEach(name => lists.waitersHall.appendChild(createAssignedItem(name, 'waiters', 'hall')));
-        assignedForDay.waiters.terrace.forEach(name => lists.waitersTerrace.appendChild(createAssignedItem(name, 'waiters', 'terrace')));
-        assignedForDay.hostess.hall.forEach(name => lists.hostessHall.appendChild(createAssignedItem(name, 'hostess', 'hall')));
-        assignedForDay.hostess.terrace.forEach(name => lists.hostessTerrace.appendChild(createAssignedItem(name, 'hostess', 'terrace')));
-        assignedForDay.tastings.forEach(name => lists.tastings.appendChild(createAssignedItem(name, 'tastings')));
+        // ======================= סוף השינוי =======================
+        
+        assignedForDay.runners.forEach(worker => lists.runners.appendChild(createAssignedItem(worker, 'runners')));
+        assignedForDay.waiters.hall.forEach(worker => lists.waitersHall.appendChild(createAssignedItem(worker, 'waiters', 'hall')));
+        assignedForDay.waiters.terrace.forEach(worker => lists.waitersTerrace.appendChild(createAssignedItem(worker, 'waiters', 'terrace')));
+        assignedForDay.hostess.hall.forEach(worker => lists.hostessHall.appendChild(createAssignedItem(worker, 'hostess', 'hall')));
+        assignedForDay.hostess.terrace.forEach(worker => lists.hostessTerrace.appendChild(createAssignedItem(worker, 'hostess', 'terrace')));
+        assignedForDay.tastings.forEach(worker => lists.tastings.appendChild(createAssignedItem(worker, 'tastings')));
 
         document.getElementById('availableWorkersTitle').textContent = `עובדים זמינים (${availableWorkers.length})`;
         document.getElementById('runnersTitle').textContent = `ראנרים (${assignedForDay.runners.length})`;
@@ -391,48 +348,69 @@
         document.getElementById('hostessTerraceTitle').textContent = `טרסה (${assignedForDay.hostess.terrace.length})`;
         document.getElementById('tastingsTitle').textContent = `טעימות (${assignedForDay.tastings.length})`;
     };
-
+    
+    // ============== שינוי: שיבוץ ללא שעה אישית ==============
     const assignWorker = (workerName, role, subRole = null) => {
         const day = document.getElementById("assignmentModal").dataset.currentDay;
         const assignedForDay = assignments[day];
+        
+        const workerData = { name: workerName }; // אובייקט פשוט עם שם בלבד
 
         if (subRole) {
-            if (assignedForDay[role]?.[subRole] && !assignedForDay[role][subRole].includes(workerName)) {
-                assignedForDay[role][subRole].push(workerName);
+            if (assignedForDay[role]?.[subRole] && !assignedForDay[role][subRole].some(w => w.name === workerName)) {
+                assignedForDay[role][subRole].push(workerData);
             }
         } else {
-            if (Array.isArray(assignedForDay[role]) && !assignedForDay[role].includes(workerName)) {
-                assignedForDay[role].push(workerName);
+            if (Array.isArray(assignedForDay[role]) && !assignedForDay[role].some(w => w.name === workerName)) {
+                assignedForDay[role].push(workerData);
             }
         }
         updateWorkerLists(day);
-        sessionStorage.setItem('workSchedule', JSON.stringify(assignments));
     };
+    // ======================= סוף השינוי =======================
 
     const unassignWorker = (workerName, role, subRole = null) => {
         const day = document.getElementById("assignmentModal").dataset.currentDay;
         const assignedForDay = assignments[day];
-
         if (subRole) {
             if (assignedForDay[role]?.[subRole]) {
-                assignedForDay[role][subRole] = assignedForDay[role][subRole].filter(name => name !== workerName);
+                assignedForDay[role][subRole] = assignedForDay[role][subRole].filter(worker => worker.name !== workerName);
             }
         } else {
             if (Array.isArray(assignedForDay[role])) {
-                assignedForDay[role] = assignedForDay[role].filter(name => name !== workerName);
+                assignedForDay[role] = assignedForDay[role].filter(worker => worker.name !== workerName);
             }
         }
         updateWorkerLists(day);
-        sessionStorage.setItem('workSchedule', JSON.stringify(assignments));
     };
 
-    window.onclick = (event) => {
-        if (event.target === document.getElementById("assignmentModal")) {
-            closeModal();
+    const saveArrivalTime = () => {
+        const day = document.getElementById("assignmentModal").dataset.currentDay;
+        if (assignments[day]) {
+            assignments[day].arrivalTime = document.getElementById('arrivalTimeInput').value.trim();
         }
     };
 
+    const addAvailableWorker = () => {
+        const workerName = prompt("הזן את שם העובד:");
+        if (!workerName || workerName.trim() === '') return;
+        const trimmedName = workerName.trim();
+        const day = document.getElementById("assignmentModal").dataset.currentDay;
+        if (allDaysData[day] && allDaysData[day].includes(trimmedName)) {
+            alert(`העובד "${trimmedName}" כבר קיים ברשימת הזמינים ליום זה.`);
+            return;
+        }
+        if (!allDaysData[day]) allDaysData[day] = [];
+        allDaysData[day].push(trimmedName);
+        updateWorkerLists(day);
+    };
+
+    window.onclick = (event) => {
+        if (event.target == document.getElementById("assignmentModal")) closeModal();
+    }
+
     const showSummary = () => {
+        sessionStorage.setItem('workSchedule', JSON.stringify(assignments));
         window.location.href = 'index.html';
     };
 
@@ -444,29 +422,10 @@
         for (let i = 0; i < li.length; i++) {
             const span = li[i].getElementsByClassName('user-name')[0];
             const txtValue = span.textContent || span.innerText;
-            if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                li[i].style.display = "flex";
-            } else {
-                li[i].style.display = "none";
-            }
+            li[i].style.display = (txtValue.toLowerCase().indexOf(filter) > -1) ? "flex" : "none";
         }
     };
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        loadAssignmentsFromStorage();
-        try {
-            const response = await fetch(URL);
-            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-            const text = await response.text();
-            const { headers } = parseCsvData(text);
-            renderTable(headers);
-            showSuccess();
-        } catch (error) {
-            showError(`שגיאה בטעינת הנתונים. ודא שהגיליון פורסם לאינטרנט כ-CSV. שגיאה: ${error.message}`);
-        }
-    });
-
 </script>
-</body>
-</html>
 
+</body>
+</html>```
